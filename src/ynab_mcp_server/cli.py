@@ -6,6 +6,10 @@ from pathlib import Path
 import shutil
 
 
+# Repository URL for manual installation instructions
+REPO_URL = "https://github.com/rgarcia/ynab-mcp-server.git"
+
+
 def setup_skills():
     """Copy skill-creator to ~/.skills/ynab/ if it doesn't exist."""
     # Determine the skills source directory
@@ -41,7 +45,7 @@ def setup_skills():
                 return 1
         else:
             print(f"⚠ Skill-creator not found. Please manually copy from the repository:")
-            print(f"  git clone --depth 1 https://github.com/rgarcia/ynab-mcp-server.git /tmp/ynab-mcp-server")
+            print(f"  git clone --depth 1 {REPO_URL} /tmp/ynab-mcp-server")
             print(f"  mkdir -p ~/.skills/ynab")
             print(f"  cp -r /tmp/ynab-mcp-server/.skills/skill-creator ~/.skills/ynab/")
             print(f"  rm -rf /tmp/ynab-mcp-server")
