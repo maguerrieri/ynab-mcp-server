@@ -254,7 +254,13 @@ Work through the task interactively. As you do, you'll naturally develop convent
 
 ### Step 2: Set Up the Skill Creator
 
-First, copy the `skill-creator` skill from this repository to your local skills directory.
+**If you installed via `uv tool`**, the skill-creator can be automatically set up by running:
+
+```bash
+ynab-mcp-server-setup-skills
+```
+
+This will copy the skill-creator to `~/.skills/ynab/skill-creator/` if it doesn't already exist.
 
 **If you installed from source**, run this from the repository root:
 
@@ -263,32 +269,18 @@ mkdir -p ~/.skills/ynab
 cp -r .skills/skill-creator ~/.skills/ynab/
 ```
 
-**If you installed via `uv tool`**, you can download the skill-creator from the repository:
-
-```bash
-mkdir -p ~/.skills/ynab
-curl -L https://github.com/rgarcia/ynab-mcp-server/archive/refs/heads/main.tar.gz | tar -xz --strip=2 -C ~/.skills/ynab ynab-mcp-server-main/.skills/skill-creator
-```
-
-Or clone the repository temporarily and copy the skill:
-
-```bash
-mkdir -p ~/.skills/ynab
-git clone --depth 1 https://github.com/rgarcia/ynab-mcp-server.git /tmp/ynab-mcp-server
-cp -r /tmp/ynab-mcp-server/.skills/skill-creator ~/.skills/ynab/
-rm -rf /tmp/ynab-mcp-server
-```
-
 ### Step 3: Create a Skill to Encode Your Conventions
 
-Once you've established patterns you want to reuse, create a skill to encode them. Ask Claude:
+Once you've established patterns you want to reuse, create a skill to encode them. 
+
+The skill-creator skill in `~/.skills/ynab/skill-creator/` will be automatically available to Claude when you're working with YNAB. Simply describe the conventions you want to encode:
 
 ```
-"Load the skill-creator skill and help me create a ynab skill that encodes
-the conventions we just used for processing transactions"
+"Help me create a ynab skill that encodes the conventions we just used for 
+processing transactions"
 ```
 
-The skill-creator will guide you through:
+Claude will use the skill-creator to guide you through:
 
 1. Identifying the reusable patterns from your workflow
 2. Creating a SKILL.md file with your conventions
