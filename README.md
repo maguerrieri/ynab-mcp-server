@@ -234,7 +234,7 @@ Once connected, you can ask Claude things like:
 
 YNAB workflows are personal. Everyone has their own conventions for handling transactions, categorizing expenses, and managing duplicates. You can create custom skills to encode your personal conventions so Claude can learn and apply them consistently.
 
-Skills should be stored in `~/.skills/ynab/` on your local machine (not in this repository).
+Skills should be stored in `~/.skills/ynab/` on your local machine (not in this repository). Claude Desktop automatically discovers and loads skills from this directory when working with the YNAB MCP server.
 
 ### Step 1: Explore Your Budget
 
@@ -254,11 +254,29 @@ Work through the task interactively. As you do, you'll naturally develop convent
 
 ### Step 2: Set Up the Skill Creator
 
-First, copy the `skill-creator` skill from this repository to your local skills directory:
+First, copy the `skill-creator` skill from this repository to your local skills directory.
+
+**If you installed from source**, run this from the repository root:
 
 ```bash
 mkdir -p ~/.skills/ynab
 cp -r .skills/skill-creator ~/.skills/ynab/
+```
+
+**If you installed via `uv tool`**, you can download the skill-creator from the repository:
+
+```bash
+mkdir -p ~/.skills/ynab
+curl -L https://github.com/rgarcia/ynab-mcp-server/archive/refs/heads/main.tar.gz | tar -xz --strip=2 -C ~/.skills/ynab ynab-mcp-server-main/.skills/skill-creator
+```
+
+Or clone the repository temporarily and copy the skill:
+
+```bash
+mkdir -p ~/.skills/ynab
+git clone --depth 1 https://github.com/rgarcia/ynab-mcp-server.git /tmp/ynab-mcp-server
+cp -r /tmp/ynab-mcp-server/.skills/skill-creator ~/.skills/ynab/
+rm -rf /tmp/ynab-mcp-server
 ```
 
 ### Step 3: Create a Skill to Encode Your Conventions
