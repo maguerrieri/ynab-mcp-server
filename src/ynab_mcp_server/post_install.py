@@ -16,7 +16,6 @@ def main():
     possible_locations = [
         package_dir.parent.parent / ".skills" / "skill-creator",  # Development mode
         package_dir / ".skills" / "skill-creator",  # If bundled with package
-        Path(sys.prefix) / "share" / "ynab-mcp-server" / ".skills" / "skill-creator",  # Standard data location
     ]
     
     source_skills = None
@@ -32,7 +31,7 @@ def main():
     
     # Only copy if destination doesn't exist
     if not dest_skills.exists():
-        if source_skills and source_skills.exists():
+        if source_skills:
             try:
                 dest_dir.mkdir(parents=True, exist_ok=True)
                 shutil.copytree(source_skills, dest_skills)
