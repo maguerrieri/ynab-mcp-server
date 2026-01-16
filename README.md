@@ -234,7 +234,7 @@ Once connected, you can ask Claude things like:
 
 YNAB workflows are personal. Everyone has their own conventions for handling transactions, categorizing expenses, and managing duplicates. You can create custom skills to encode your personal conventions so Claude can learn and apply them consistently.
 
-Skills should be stored in `~/.skills/ynab/` on your local machine (not in this repository). Claude Desktop automatically discovers and loads skills from this directory when working with the YNAB MCP server.
+Skills should be stored in `~/.skills/ynab/` on your local machine (not in this repository). Claude Desktop (and other MCP clients that support skills) automatically discover and load skills from this directory when working with the YNAB MCP server.
 
 ### Step 1: Explore Your Budget
 
@@ -257,7 +257,7 @@ Work through the task interactively. As you do, you'll naturally develop convent
 **If you installed via `uv tool`**, the skill-creator can be automatically set up by running:
 
 ```bash
-ynab-mcp-server-setup-skills
+ynab-mcp-server --setup-skills
 ```
 
 This will copy the skill-creator to `~/.skills/ynab/skill-creator/` if it doesn't already exist.
