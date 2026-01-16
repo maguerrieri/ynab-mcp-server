@@ -12,6 +12,18 @@ This server automatically exposes all YNAB API endpoints as MCP tools, allowing 
 
 ## Setup
 
+### Option 1: Install via uv tool (Recommended)
+
+Install the YNAB MCP server as a standalone tool:
+
+```bash
+uv tool install ynab-mcp-server
+```
+
+This will install the `ynab-mcp-server` command globally, making it available from anywhere.
+
+### Option 2: Install from Source
+
 ### 1. Clone the Repository
 
 ```bash
@@ -27,7 +39,9 @@ cd ynab-mcp-server
 4. Give your token a name and click **Generate**
 5. Copy the token (you won't be able to see it again!)
 
-### 3. Install Dependencies
+### 3. Install Dependencies (Source Installation Only)
+
+If you installed from source, install the dependencies:
 
 ```bash
 uv sync
@@ -41,6 +55,24 @@ Add the following to your Claude Desktop configuration file:
 
 **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+**If installed via `uv tool`:**
+
+```json
+{
+  "mcpServers": {
+    "ynab": {
+      "command": "ynab-mcp-server",
+      "args": [],
+      "env": {
+        "YNAB_API_TOKEN": "your-token-here"
+      }
+    }
+  }
+}
+```
+
+**If installed from source:**
 
 ```json
 {
@@ -60,6 +92,24 @@ Add the following to your Claude Desktop configuration file:
 
 Add the following to your Cursor MCP settings (`~/.cursor/mcp.json` for global or `.cursor/mcp.json` in your project):
 
+**If installed via `uv tool`:**
+
+```json
+{
+  "mcpServers": {
+    "ynab": {
+      "command": "ynab-mcp-server",
+      "args": [],
+      "env": {
+        "YNAB_API_TOKEN": "your-token-here"
+      }
+    }
+  }
+}
+```
+
+**If installed from source:**
+
 ```json
 {
   "mcpServers": {
@@ -77,6 +127,25 @@ Add the following to your Cursor MCP settings (`~/.cursor/mcp.json` for global o
 ### With OpenCode
 
 Add the following to your OpenCode configuration file (`~/.config/opencode/opencode.json`):
+
+**If installed via `uv tool`:**
+
+```json
+{
+  "mcp": {
+    "ynab": {
+      "type": "local",
+      "command": ["ynab-mcp-server"],
+      "enabled": true,
+      "environment": {
+        "YNAB_API_TOKEN": "your-token-here"
+      }
+    }
+  }
+}
+```
+
+**If installed from source:**
 
 ```json
 {
@@ -163,7 +232,9 @@ Once connected, you can ask Claude things like:
 
 ## Creating Custom Skills for Your YNAB Workflow
 
-YNAB workflows are personal. Everyone has their own conventions for handling transactions, categorizing expenses, and managing duplicates. This repo includes a skill system that lets you encode your personal conventions so Claude can learn and apply them consistently.
+YNAB workflows are personal. Everyone has their own conventions for handling transactions, categorizing expenses, and managing duplicates. You can create custom skills to encode your personal conventions so Claude can learn and apply them consistently.
+
+Skills should be stored in `~/.skills/ynab/` on your local machine (not in this repository).
 
 ### Step 1: Explore Your Budget
 
@@ -181,11 +252,18 @@ Work through the task interactively. As you do, you'll naturally develop convent
 - "Transactions from 'AMZN' should be categorized as 'Shopping' unless the memo mentions 'Kindle'"
 - "Any transaction over $500 should be flagged for review"
 
-### Step 2: Create a Skill to Encode Your Conventions
+### Step 2: Set Up the Skill Creator
 
-Once you've established patterns you want to reuse, create a skill to encode them. This repo includes the `skill-creator` skill in `.skills/skill-creator/` to help you build custom skills.
+First, copy the `skill-creator` skill from this repository to your local skills directory:
 
-Ask Claude:
+```bash
+mkdir -p ~/.skills/ynab
+cp -r .skills/skill-creator ~/.skills/ynab/
+```
+
+### Step 3: Create a Skill to Encode Your Conventions
+
+Once you've established patterns you want to reuse, create a skill to encode them. Ask Claude:
 
 ```
 "Load the skill-creator skill and help me create a ynab skill that encodes
@@ -198,17 +276,18 @@ The skill-creator will guide you through:
 2. Creating a SKILL.md file with your conventions
 3. Structuring the skill for future use
 
-### Step 3: Use Your Skills
+### Step 4: Use Your Skills
 
-Once created, your skills live in `.skills/` and Claude will automatically apply them when relevant. You can:
+Once created, your skills live in `~/.skills/ynab/` and Claude will automatically apply them when relevant. You can:
 
 - Add more conventions as you discover them
 - Share skills with others who have similar YNAB setups
-- Build on the included examples
+- Create multiple skills for different workflows
 
-### Included Skills
+### Available Skills
 
-- `.skills/skill-creator/` - Claude's official guide for creating new skills, included for convenience
+This repository includes:
+- `.skills/skill-creator/` - Claude's official guide for creating new skills (copy to `~/.skills/ynab/skill-creator/` to use)
 
 ## Development
 
